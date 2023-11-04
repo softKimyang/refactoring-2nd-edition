@@ -1,6 +1,6 @@
 export default function statement(invoice, plays){
   let totalAmount = 0;
-  let volumeCredits = 0;
+
   let result = `청구 내역 (고객명: ${invoice.customer})\n`;
 
   console.log(`usd : ${usd(50000)}`);
@@ -9,8 +9,10 @@ export default function statement(invoice, plays){
     result += `${playFor(perf).name}: ${usd(amountFor(perf))}(${perf.audience})석\n`;
     totalAmount += amountFor(perf);
   }
-  
-  // 반복문 쪼개기
+
+  // 1.반복문 쪼개기
+  // 2.문장 슬라이드하기 
+  let volumeCredits = 0;
   for(let perf of invoice.performances){
     volumeCredits  += volumeCreditsFor(perf);
   }
