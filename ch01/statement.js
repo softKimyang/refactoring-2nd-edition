@@ -1,4 +1,9 @@
 export default function statement(invoice, plays){
+  return renderPlainText(invoice, plays);
+}
+
+// 단계 쪼개기
+function renderPlainText(invoice, plays){
   let result = `청구 내역 (고객명: ${invoice.customer})\n`;
 
   for(let perf of invoice.performances){
