@@ -1,5 +1,5 @@
+// 중간 데이터 구조를 인수로 전달
 export default function createStatementData(invoice, plays){
-  // 중간 데이터 구조를 인수로 전달
   const statementData = {};
   statementData.customer = invoice.customer;
   statementData.performances = invoice.performances.map(enrichPerformance);
@@ -9,7 +9,8 @@ export default function createStatementData(invoice, plays){
   
 
   function enrichPerformance(aPerformance){
-    // 불변 데이터를 위해 얕은 복사 수행
+    // 공연료 계산기 생성
+    const calculator = new PerformanceCalculator(aPerformance);
     const result = Object.assign({}, aPerformance);
     result.play = playFor(result);
     result.amount = amountFor(result);
@@ -66,3 +67,9 @@ export default function createStatementData(invoice, plays){
   }
 }
 
+// 공연료 계산기 생성
+class PerformanceCalculator{
+  constructor(aPerformance){
+    this.performance = aPerformance;
+  }
+}
