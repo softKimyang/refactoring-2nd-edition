@@ -7,12 +7,11 @@ export default function statement(invoice, plays){
 
   for(let perf of invoice.performances){
     result += `${playFor(perf).name}: ${usd(amountFor(perf))}(${perf.audience})석\n`;
-    totalAmount += amountFor(perf);
   }
-  // 4. 임시 변수를 질의 함수로 바꾸기
-  //let volumeCredits = totalVolumeCredits();
+  // 함수 추출 후 임시 이름 부여
+  totalAmount += appleSauce();
+
   result += `총액: ${usd(totalAmount)}\n`;
-  // 5. 변수 인라인
   result += `적립 포인트: ${totalVolumeCredits()}점\n`
   return result;
 
@@ -60,11 +59,18 @@ export default function statement(invoice, plays){
                   minimumFractionDigits: 2}).format(aNumber/100);
   }
 
-  // 3. 함수로 추출하기
   function totalVolumeCredits(){
     let result = 0;
     for(let perf of invoice.performances){
       result  += volumeCreditsFor(perf);
+    }
+    return result;
+  }
+  // totalAmount() 임시 이름
+  function appleSauce(){
+    let result = 0;
+    for(let perf of invoice.performances){
+      result += amountFor(perf);
     }
     return result;
   }
