@@ -18,3 +18,14 @@ test('shortfall', () =>{
 test('profit', () => {
   expect(noProducers.profit).toEqual(0);
 });
+
+test('string for producers', () => {
+  const data = {
+    name : "string producers",
+    producers: "",
+    demand: 30,
+    price: 20
+  };
+  const province = new Province(data);
+  expect(province.shortfall).equal(0);
+})
