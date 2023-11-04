@@ -54,23 +54,18 @@ export default function statement(invoice, plays){
   }
 
   function totalVolumeCredits(data){
-    let result = 0;
-    for(let perf of data.performances){
-      result  += perf.volumeCredits;
-    }
-    return result;
+    return data.performances
+      .reduce((total, p) => total + p.volumeCredits, 0);
+    
   }
 
   function totalAmount(data){
-    let result = 0;
-    for(let perf of data.performances){
-      result += perf.amount;
-    }
-    return result;
+    return data.performances
+      .reduce((total, p) => total + p.amount, 0);
+
   }
 }
 
-// 공연정보를 중간 데이터로 옮김
 function renderPlainText(data,  plays){
   let result = `청구 내역 (고객명: ${data.customer})\n`;
 
