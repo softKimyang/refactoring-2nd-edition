@@ -1,10 +1,14 @@
 export default function statement(invoice, plays){
-  return renderPlainText(invoice, plays);
+  // 중간 데이터 구조를 인수로 전달
+  const statementData = {};
+  statementData.customer = invoice.customer;
+
+  return renderPlainText(statementData, invoice, plays);
 }
 
-// 단계 쪼개기
-function renderPlainText(invoice, plays){
-  let result = `청구 내역 (고객명: ${invoice.customer})\n`;
+// 고객정보를 중간 데이터로 옮김
+function renderPlainText(data, invoice, plays){
+  let result = `청구 내역 (고객명: ${data.customer})\n`;
 
   for(let perf of invoice.performances){
     result += `${playFor(perf).name}: ${usd(amountFor(perf))}(${perf.audience})석\n`;
