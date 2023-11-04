@@ -9,19 +9,12 @@ export default function statement(invoice, plays){
     result += `${playFor(perf).name}: ${usd(amountFor(perf))}(${perf.audience})석\n`;
     totalAmount += amountFor(perf);
   }
-
-  // 1.반복문 쪼개기
-  // 2.문장 슬라이드하기 
-  let volumeCredits = 0;
-  for(let perf of invoice.performances){
-    volumeCredits  += volumeCreditsFor(perf);
-  }
-
+  // 4. 임시 변수를 질의 함수로 바꾸기
+  let volumeCredits = totalVolumeCredits();
   result += `총액: ${usd(totalAmount)}\n`;
   result += `적립 포인트: ${volumeCredits}점\n`
   return result;
 
-  // 매개변수 제거
   function amountFor(aPerformance){
     let result = 0;
 
@@ -59,12 +52,19 @@ export default function statement(invoice, plays){
     return result;
   }
 
-  // 함수 선언 바꾸기 format -> usd
   function usd(aNumber){
-    // 단위 변환 로직을 함수 안에서 처리 : aNumber/100
     return new Intl.NumberFormat("en-US",
                   {style: "currency",
                   currency: "USD",
                   minimumFractionDigits: 2}).format(aNumber/100);
+  }
+
+  // 3. 함수로 추출하기
+  function totalVolumeCredits(){
+    let result = 0;
+    for(let perf of invoice.performances){
+      result  += volumeCreditsFor(perf);
+    }
+    return result;
   }
 }
