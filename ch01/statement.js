@@ -11,6 +11,29 @@ export default function statement(invoice, plays){
 
   for(let perf of invoice.performances){
     const play = plays[perf.playID];
+    let thisAmount = amountFor(perf, play);
+    
+
+    //point
+    volumeCredits += Math.max(perf.audience - 30, 0);
+
+    // provide more point per 5 comedy audience 
+    if("comedy" === play.type) {
+      volumeCredits += Math.floor(perf.audience / 5);
+    }
+
+    // print 
+    result += `${play.name}: ${format(thisAmount/100)}(${perf.audience})석\n`;
+    totalAmount += thisAmount;
+  }
+
+  result += `총액: ${format(totalAmount/100)}\n`;
+  result += `적립 포인트: ${volumeCredits}점\n`
+  return result;
+
+
+  // 함수 추출하기. 
+  function amountFor(perf, play){
     let thisAmount = 0;
     console.log(`perf : ${play.type}`)
     switch(play.type){
@@ -30,21 +53,6 @@ export default function statement(invoice, plays){
       default:
         throw new Error(`알수 없는 쟝르: ${play.type}`);
     }
-
-    //point
-    volumeCredits += Math.max(perf.audience - 30, 0);
-
-    // provide more point per 5 comedy audience 
-    if("comedy" === play.type) {
-      volumeCredits += Math.floor(perf.audience / 5);
-    }
-
-    // print 
-    result += `${play.name}: ${format(thisAmount/100)}(${perf.audience})석\n`;
-    totalAmount += thisAmount;
+    return thisAmount;
   }
-
-  result += `총액: ${format(totalAmount/100)}\n`;
-  result += `적립 포인트: ${volumeCredits}점\n`
-  return result;
 }
