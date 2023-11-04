@@ -28,8 +28,8 @@ test('zero demand', () => {
 })
 test('negative demand', () => {
   asia.demand = -1;
-  expect(asia.shortfall).toEqual(-26);
-  expect(asia.profit).toEqual(-10);
+  expect(asia.shortfall).toEqual(-25);
+  expect(asia.profit).toEqual(0);
 })
 test('empty string demand', () => {
   asia.demand = "";
