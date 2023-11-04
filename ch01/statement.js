@@ -10,8 +10,8 @@ export default function statement(invoice, plays){
   console.log(`format : ${format(50000/100)}`);
 
   for(let perf of invoice.performances){
-    // 변수 인라인하기
-    let thisAmount = amountFor(perf);
+    // 변수 인라인한 후 변수 제거
+    //let thisAmount = amountFor(perf);
     
     volumeCredits += Math.max(perf.audience - 30, 0);
 
@@ -19,8 +19,9 @@ export default function statement(invoice, plays){
       volumeCredits += Math.floor(perf.audience / 5);
     }
 
-    result += `${playFor(perf).name}: ${format(thisAmount/100)}(${perf.audience})석\n`;
-    totalAmount += thisAmount;
+    // 변수 인라인하기
+    result += `${playFor(perf).name}: ${format(amountFor(perf)/100)}(${perf.audience})석\n`;
+    totalAmount += amountFor(perf);
   }
 
   result += `총액: ${format(totalAmount/100)}\n`;
