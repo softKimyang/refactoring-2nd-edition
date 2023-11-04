@@ -1,13 +1,10 @@
 export default function statement(invoice, plays){
   let result = `청구 내역 (고객명: ${invoice.customer})\n`;
 
-  console.log(`usd : ${usd(50000)}`);
-
   for(let perf of invoice.performances){
     result += `${playFor(perf).name}: ${usd(amountFor(perf))}(${perf.audience})석\n`;
   }
 
-  // 변수 인라인  후 함수 이름 바꾸기
   result += `총액: ${usd(totalAmount())}\n`;
   result += `적립 포인트: ${totalVolumeCredits()}점\n`
   return result;
@@ -63,7 +60,7 @@ export default function statement(invoice, plays){
     }
     return result;
   }
-  // 함수 이름 변경
+
   function totalAmount(){
     let result = 0;
     for(let perf of invoice.performances){
