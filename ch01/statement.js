@@ -10,16 +10,10 @@ export default function statement(invoice, plays){
   console.log(`format : ${format(50000/100)}`);
 
   for(let perf of invoice.performances){
-    // 변수 인라인한 후 변수 제거
-    //let thisAmount = amountFor(perf);
     
-    volumeCredits += Math.max(perf.audience - 30, 0);
+    // 적립 포인트 계산 코드 추출하기
+    volumeCredits  += volumeCreditsFor(perf);
 
-    if("comedy" === playFor(perf).type) {
-      volumeCredits += Math.floor(perf.audience / 5);
-    }
-
-    // 변수 인라인하기
     result += `${playFor(perf).name}: ${format(amountFor(perf)/100)}(${perf.audience})석\n`;
     totalAmount += amountFor(perf);
   }
@@ -54,5 +48,15 @@ export default function statement(invoice, plays){
 
   function playFor(aPerformance){
     return  plays[aPerformance.playID];
+  }
+
+  function volumeCreditsFor(aPerformance){
+    let result = 0;
+    result += Math.max(aPerformance.audience - 30, 0);
+
+    if("comedy" === playFor(aPerformance).type) {
+      result += Math.floor(aPerformance.audience / 5);
+    }
+    return result;
   }
 }
