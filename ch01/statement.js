@@ -11,7 +11,7 @@ export default function statement(invoice, plays){
 
   for(let perf of invoice.performances){
     // 변수 인라인하기
-    let thisAmount = amountFor(perf, playFor(perf));
+    let thisAmount = amountFor(perf);
     
     volumeCredits += Math.max(perf.audience - 30, 0);
 
@@ -27,10 +27,10 @@ export default function statement(invoice, plays){
   result += `적립 포인트: ${volumeCredits}점\n`
   return result;
 
-  function amountFor(aPerformance, play){
+  // 매개변수 제거
+  function amountFor(aPerformance){
     let result = 0;
-    // 함수 선언 바꾸기 
-    // play 를 함수 playFor()로  교체
+
     switch(playFor(aPerformance).type){
       case "tragedy":
         result = 40000;
@@ -46,7 +46,7 @@ export default function statement(invoice, plays){
         result += 300 * aPerformance.audience;
         break;
       default:
-        throw new Error(`알수 없는 쟝르: ${playFor(aPerformance).type}`); // 함수 선언 바꾸기
+        throw new Error(`알수 없는 쟝르: ${playFor(aPerformance).type}`); 
     }
     return result;
   }
