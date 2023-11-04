@@ -10,18 +10,16 @@ export default function statement(invoice, plays){
   console.log(`format : ${format(50000/100)}`);
 
   for(let perf of invoice.performances){
-    // 임의 변수를 질의 함수로 바꾸기. 
     // 변수 인라인하기
-    const play = playFor(perf);
-    let thisAmount = amountFor(perf, play);
+    let thisAmount = amountFor(perf, playFor(perf));
     
     volumeCredits += Math.max(perf.audience - 30, 0);
 
-    if("comedy" === play.type) {
+    if("comedy" === playFor(perf).type) {
       volumeCredits += Math.floor(perf.audience / 5);
     }
 
-    result += `${play.name}: ${format(thisAmount/100)}(${perf.audience})석\n`;
+    result += `${playFor(perf).name}: ${format(thisAmount/100)}(${perf.audience})석\n`;
     totalAmount += thisAmount;
   }
 
