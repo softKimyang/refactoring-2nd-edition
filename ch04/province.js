@@ -12,6 +12,17 @@ export default class Province{
     });
   }
 
+  get name(){ return this._name;}
+  get producers() { 
+    return this._producers.slice();
+  }
+  get totalProduction() { return this._totalProduction;}
+  set totalProduction(arg) { this._totalProduction = arg;}
+  get demand() { return this._demand;}
+  set demand(arg) { this._demand = arg;}
+  get price() { return this._price;}
+  set price(arg) {this._price = arg;}
+
   addProducer(arg){
     this._producers.push(arg);
     this._totalProduction += arg.production;
@@ -24,9 +35,9 @@ export default class Province{
   get profit(){
     return this.demandValue - this.demandCost;
   }
-
+  
   get demandValue(){
-    return this.satisfiedDemand + this.price;
+    return this.satisfiedDemand * this.price;
   }
 
   get satisfiedDemand(){
@@ -40,7 +51,7 @@ export default class Province{
       .sort((a,b) => a.cost - b.cost)
       .forEach(p => {
         const contribution = Math.min(remainingDemand, p.production);
-        remainingDemand ==contribution;
+        remainingDemand -= contribution;
         result += contribution * p.cost;
         });
     return result;
