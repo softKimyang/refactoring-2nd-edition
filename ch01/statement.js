@@ -10,19 +10,17 @@ export default function statement(invoice, plays){
   console.log(`format : ${format(50000/100)}`);
 
   for(let perf of invoice.performances){
-    const play = plays[perf.playID];
+    // 임의 변수를 질의 함수로 바꾸기. 
+    // 변수 인라인하기
+    const play = playFor(perf);
     let thisAmount = amountFor(perf, play);
     
-
-    //point
     volumeCredits += Math.max(perf.audience - 30, 0);
 
-    // provide more point per 5 comedy audience 
     if("comedy" === play.type) {
       volumeCredits += Math.floor(perf.audience / 5);
     }
 
-    // print 
     result += `${play.name}: ${format(thisAmount/100)}(${perf.audience})석\n`;
     totalAmount += thisAmount;
   }
@@ -31,8 +29,6 @@ export default function statement(invoice, plays){
   result += `적립 포인트: ${volumeCredits}점\n`
   return result;
 
-
-  // 매개변수 이름 변경. return 변수는 result로
   function amountFor(aPerformance, play){
     let result = 0;
     console.log(`aPerformance : ${play.type}`)
@@ -54,5 +50,9 @@ export default function statement(invoice, plays){
         throw new Error(`알수 없는 쟝르: ${play.type}`);
     }
     return result;
+  }
+
+  function playFor(aPerformance){
+    return  plays[aPerformance.playID];
   }
 }
