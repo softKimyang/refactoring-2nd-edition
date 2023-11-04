@@ -18,5 +18,22 @@ test('production test', () => {
   expect(asia.totalProduction).toEqual(36);
   expect(asia.shortfall).toEqual(-6);
   expect(asia.profit).toEqual(292);
+});
+
+// 예외 상황들
+test('zero demand', () => {
+  asia.demand = 0;
+  expect(asia.shortfall).toEqual(-25);
+  expect(asia.profit).toEqual(0);
+})
+test('negative demand', () => {
+  asia.demand = -1;
+  expect(asia.shortfall).toEqual(-26);
+  expect(asia.profit).toEqual(-10);
+})
+test('empty string demand', () => {
+  asia.demand = "";
+  expect(asia.shortfall).NaN;
+  expect(asia.profit).NaN;
 })
 
