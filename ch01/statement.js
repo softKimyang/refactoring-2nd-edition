@@ -6,10 +6,13 @@ export default function statement(invoice, plays){
   console.log(`usd : ${usd(50000)}`);
 
   for(let perf of invoice.performances){
-    volumeCredits  += volumeCreditsFor(perf);
-
     result += `${playFor(perf).name}: ${usd(amountFor(perf))}(${perf.audience})석\n`;
     totalAmount += amountFor(perf);
+  }
+  
+  // 반복문 쪼개기
+  for(let perf of invoice.performances){
+    volumeCredits  += volumeCreditsFor(perf);
   }
 
   result += `총액: ${usd(totalAmount)}\n`;
