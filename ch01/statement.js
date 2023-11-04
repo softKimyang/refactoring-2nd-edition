@@ -29,8 +29,9 @@ export default function statement(invoice, plays){
 
   function amountFor(aPerformance, play){
     let result = 0;
-    console.log(`aPerformance : ${play.type}`)
-    switch(play.type){
+    // 함수 선언 바꾸기 
+    // play 를 함수 playFor()로  교체
+    switch(playFor(aPerformance).type){
       case "tragedy":
         result = 40000;
         if(aPerformance.audience > 30){
@@ -45,7 +46,7 @@ export default function statement(invoice, plays){
         result += 300 * aPerformance.audience;
         break;
       default:
-        throw new Error(`알수 없는 쟝르: ${play.type}`);
+        throw new Error(`알수 없는 쟝르: ${playFor(aPerformance).type}`); // 함수 선언 바꾸기
     }
     return result;
   }
