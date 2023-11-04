@@ -2,22 +2,17 @@ export default function statement(invoice, plays){
   let totalAmount = 0;
   let volumeCredits = 0;
   let result = `청구 내역 (고객명: ${invoice.customer})\n`;
-  // format 변수 제거하기
-  // const format = new Intl.NumberFormat("en-US",
-  //                 {style: "currency",
-  //                 currency: "USD",
-  //                 minimumFractionDigits: 2}).format;
 
-  console.log(`format : ${format(50000/100)}`);
+  console.log(`usd : ${usd(50000)}`);
 
   for(let perf of invoice.performances){
     volumeCredits  += volumeCreditsFor(perf);
 
-    result += `${playFor(perf).name}: ${format(amountFor(perf)/100)}(${perf.audience})석\n`;
+    result += `${playFor(perf).name}: ${usd(amountFor(perf))}(${perf.audience})석\n`;
     totalAmount += amountFor(perf);
   }
 
-  result += `총액: ${format(totalAmount/100)}\n`;
+  result += `총액: ${usd(totalAmount)}\n`;
   result += `적립 포인트: ${volumeCredits}점\n`
   return result;
 
@@ -59,10 +54,12 @@ export default function statement(invoice, plays){
     return result;
   }
 
-  function format(aNumber){
+  // 함수 선언 바꾸기 format -> usd
+  function usd(aNumber){
+    // 단위 변환 로직을 함수 안에서 처리 : aNumber/100
     return new Intl.NumberFormat("en-US",
                   {style: "currency",
                   currency: "USD",
-                  minimumFractionDigits: 2}).format(aNumber);
+                  minimumFractionDigits: 2}).format(aNumber/100);
   }
 }
