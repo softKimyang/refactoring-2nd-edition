@@ -72,9 +72,7 @@ export default class Province{
         const contribution = Math.min(remainingDemand, p.production);
         remainingDemand -= contribution;
         result += p.cost * contribution;
-        console.log(`remainingDemand : ${remainingDemand}, production: ${contribution}`);
       });
-      console.log(`demandValue : ${this.demandValue}, demandCost: ${result}`);
       return result;
   }
 }
