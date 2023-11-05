@@ -123,3 +123,54 @@ function recordDueDate(invoice){
 
 }
 ```
+#### 예시 : 지역 변수의 값을 변경할 때
+
+1. 맨 위에 있던 선언문을 슬라이드 한다.
+2. 추출할 부분을 새로운 함수로 복사한다.
+3. 추출한 코드의 원래 자리에 (let outstanding ) 새로 뽑아낸 함수를 (calulateOutstanding(invoice)) 를 대입한다.
+```
+function printOwing(invoice) {
+  printBanner();
+  let outstanding = calulateOutstanding(invoice);
+  recordDueDate(invoice);
+  printDetail(invoice, outstanding);
+}
+
+function printBanner() {
+  console.log('*********************');
+  console.log('***** 고객 채무 *****');
+  console.log('*********************');
+}
+
+function printDetail(invoice, outstanding) {
+  console.log(`고객명: ${invoice.customer}`);
+  console.log(`채무액: ${outstanding}`);
+  console.log(`마감일: ${invoice.dueDate.toLocaleDateString()}`);
+}
+
+function recordDueDate(invoice) {
+  //const today = Clock.today;
+  const today = new Date();
+  invoice.dueDate = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate() + 30
+  );
+}
+
+function calulateOutstanding(invoice) {
+  let result = 0;
+  for (const o of invoice.orders) {
+    result += o.amount;
+  }
+  return result;
+}
+```
+
+#### 아쉽다
+1. Clock.today 는 Clock Wrapper라고 부르고, 시스템 시계를 감싸는 객체다.
+저자는 Date.now()처럼 시스템 시간을 알려주는 함수는 직접 호출하지 않는다고 한다. 직접 호출하면 테스트할 때마다 결과가 달라져서 오류 상황을 재현하기가 어렵기 때문이라고 한다.  => __나는 무슨 소리인지 잘 모르겠고, 일단 amount만 테스트하고 넘어간다.__
+
+2. 테스트하려고 하는데, 책에는 테스트 데이터가  없어서 대충 만들었다.
+소스를 보고 데이터를 만들어보는 것도 괜찮은 경험이었다. 
+지금은 refactoring에 중점을 두고 가야 하니까, 테스트 데이터 __잘__ 만드는 것은 다음으로 미룬다.
