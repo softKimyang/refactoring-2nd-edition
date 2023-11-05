@@ -1,25 +1,27 @@
+import sampleProvinceData from './sampleData';
 import Province from './province.js';
-import sampleProvinceData from './sampledata.js';
-// npx jest ./ch04/province.test.js
 
-let asia ;
-beforeEach(() => {
+let asia;
+
+beforeEach(() =>{
   asia = new Province(sampleProvinceData());
-  
 });
 
-test('province test', () => {
+test('shortfall', () => {
   expect(asia.shortfall).toEqual(5);
+  expect(asia.totalProduction).toEqual(25);
+})
+
+test('profit', () => {
+  expect(asia.producers[0].name).toEqual('Byzantinum');
   expect(asia.profit).toEqual(230);
-});
-
-test('production test', () => {
-  asia.producers[0].production = 20;
-  expect(asia.totalProduction).toEqual(36);
-  expect(asia.shortfall).toEqual(-6);
-  expect(asia.profit).toEqual(292);
-});
-
+})
+test('demand setter test', () => {
+  asia.demand = 20;
+  expect(asia.shortfall).toEqual(-5);
+  expect(asia.demandValue).toEqual(20 * asia.price);
+  expect(asia.profit).toEqual(190);
+})
 // 예외 상황들
 test('zero demand', () => {
   asia.demand = 0;
@@ -31,9 +33,19 @@ test('negative demand', () => {
   expect(asia.shortfall).toEqual(-25);
   expect(asia.profit).toEqual(0);
 })
-test('empty string demand', () => {
+test('empty string demand', () =>{
   asia.demand = "";
-  expect(asia.shortfall).NaN;
-  expect(asia.profit).NaN;
-})
+  expect(asia.shortfall).toEqual(-25);
+  expect(asia.profit).toEqual(0);
+});
 
+test('string for producers', () =>{
+  const data = {
+    name: "String producers",
+    producers: "",
+    demand: 30,
+    price: 20
+  };
+  const prov = new Province(data);
+  expect(() => prov.shortfall).toThrow( Error('producer data is wrong'));
+});
