@@ -11,7 +11,8 @@ function printOwing(invoice){
   }
 
   // 마감일(dueDate)을 기록한다.
-  const today = Clock.today;
+  //const today = Clock.today;
+  const today = new Date();
   invoice.dueDate = new Date(today.getFullYear(), today.getMonth(),
                                   today.getDate() + 30);
 

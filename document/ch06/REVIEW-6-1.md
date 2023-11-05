@@ -20,9 +20,7 @@
 6. 테스트한다.
 7. 다른 코드에 방금 추출한 것과 똑같거나 비슷한 코드가 없는지 살핀다. 있다면 방금 추출한 새 함수를 호출하도록 바꿀지 검토한다([인라인 코드를 함수 호출로 바꾸기](./ch08/REVIEW-8-5.md))
 
-
-#### 예시 : 유효범위를 벗어나는 변수가 없을 때
-1. before
+#### 예시 : 리팩터링 예제
 ```
 function printOwing(invoice){
   let outstanding = 0;
@@ -47,8 +45,7 @@ function printOwing(invoice){
   console.log(`마감일: ${invoice.dueDate.toLocaleDateString()}`);
 }
 ```
-
-2. after
+#### 예시 : 유효범위를 벗어나는 변수가 없을 때
 ```
 function printOwing(invoice) {
   let outstanding = 0;
@@ -83,4 +80,46 @@ function printOwing(invoice) {
   }
 }
 
+```
+>printDetail()은 printOwing()에 중첩되도록 정의했다. 중첩 함수를 지원하지 않는 언어에서는 불가능한 방법이다. 이 때는 함수를 __최상위 수준으로 추출하는 문제__ 로 볼 수 있다. 아래의 [예시 : 지역 변수를 사용할 때](#예시-:-지역-변수를-사용할-때)를 참고
+
+
+#### 예시 : 지역 변수를 사용할 때 
+```
+function printOwing(invoice) {
+  let outstanding = 0;
+
+  printBanner();
+
+  // 미해결 채무(outstanding)을 계산한다.
+  for (const o of invoice.orders) {
+    outstanding += o.amount;
+  }
+
+  recordDueDate(invoice);
+  printDetail(invoice, outstanding);
+}
+
+function printBanner() {
+  console.log('*********************');
+  console.log('***** 고객 채무 *****');
+  console.log('*********************');
+}
+
+function printDetail(invoice, outstanding) {
+    console.log(`고객명: ${invoice.customer}`);
+    console.log(`채무액: ${outstanding}`);
+    console.log(`마감일: ${invoice.dueDate.toLocaleDateString()}`);
+}
+
+function recordDueDate(invoice){
+    //const today = Clock.today;
+    const today = new Date();
+  invoice.dueDate = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate() + 30
+  );
+
+}
 ```
