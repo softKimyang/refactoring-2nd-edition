@@ -6,11 +6,9 @@ export default class Invoice{
     this._totalOutstanding = 0;
     this._orders = [];
     this.orderArray(doc);
-    console.log(`orders.length : ${this._orders.length}`);
   };
 
   orderArray(doc){
-    console.log(`orders length: ${doc.orders.length}`);
     if(!Array.isArray(doc.orders)){
       throw new Error('orders invoice is wrong') ;
     }
